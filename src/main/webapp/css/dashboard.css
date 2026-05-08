@@ -1,0 +1,333 @@
+/* =========================================
+   DASHBOARD PAGE STYLES
+========================================= */
+
+/* BODY */
+
+body {
+
+    background-color: #f5f7fb;
+
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* =========================================
+   DASHBOARD HEADER
+========================================= */
+
+.dashboard-header {
+
+    margin-bottom: 30px;
+}
+
+.dashboard-header h2 {
+
+    font-size: 32px;
+
+    font-weight: 700;
+
+    color: #212529;
+}
+
+.dashboard-header p {
+
+    color: #6c757d;
+
+    font-size: 15px;
+}
+
+/* =========================================
+   STAT CARDS
+========================================= */
+
+.stat-card {
+
+    border: none;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    transition: all 0.3s ease;
+
+    position: relative;
+}
+
+.stat-card:hover {
+
+    transform: translateY(-5px);
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card .card-body {
+
+    padding: 25px;
+}
+
+.stat-card .icon-box {
+
+    width: 65px;
+
+    height: 65px;
+
+    border-radius: 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 28px;
+
+    color: white;
+
+    margin-bottom: 15px;
+}
+
+.stat-card h3 {
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+    margin-bottom: 5px;
+}
+
+.stat-card p {
+
+    margin: 0;
+
+    color: #6c757d;
+
+    font-size: 15px;
+}
+
+/* =========================================
+   CARD COLORS
+========================================= */
+
+.total-task .icon-box {
+
+    background: linear-gradient(45deg, #0d6efd, #4e8cff);
+}
+
+.completed-task .icon-box {
+
+    background: linear-gradient(45deg, #198754, #4cd964);
+}
+
+.pending-task .icon-box {
+
+    background: linear-gradient(45deg, #ffc107, #ffda6a);
+}
+
+.overdue-task .icon-box {
+
+    background: linear-gradient(45deg, #dc3545, #ff6b81);
+}
+
+/* =========================================
+   TASK TABLE
+========================================= */
+
+.task-table-card {
+
+    border: none;
+
+    border-radius: 18px;
+}
+
+.task-table-card .card-header {
+
+    background-color: white;
+
+    border-bottom: 1px solid #eee;
+
+    padding: 18px 25px;
+
+    border-radius: 18px 18px 0 0 !important;
+}
+
+.task-table-card .card-header h5 {
+
+    margin: 0;
+
+    font-weight: 600;
+}
+
+.table {
+
+    margin-bottom: 0;
+}
+
+.table thead {
+
+    background-color: #0d6efd;
+
+    color: white;
+}
+
+.table thead th {
+
+    border: none;
+
+    padding: 15px;
+}
+
+.table tbody td {
+
+    padding: 15px;
+
+    vertical-align: middle;
+}
+
+.table tbody tr:hover {
+
+    background-color: #f1f5ff;
+}
+
+/* =========================================
+   BADGES
+========================================= */
+
+.badge-priority-high {
+
+    background-color: #dc3545;
+
+    color: white;
+
+    padding: 7px 12px;
+
+    border-radius: 20px;
+}
+
+.badge-priority-medium {
+
+    background-color: #ffc107;
+
+    color: black;
+
+    padding: 7px 12px;
+
+    border-radius: 20px;
+}
+
+.badge-priority-low {
+
+    background-color: #198754;
+
+    color: white;
+
+    padding: 7px 12px;
+
+    border-radius: 20px;
+}
+
+/* =========================================
+   STATUS BADGES
+========================================= */
+
+.badge-status-completed {
+
+    background-color: #198754;
+
+    color: white;
+
+    padding: 7px 12px;
+
+    border-radius: 20px;
+}
+
+.badge-status-pending {
+
+    background-color: #ffc107;
+
+    color: black;
+
+    padding: 7px 12px;
+
+    border-radius: 20px;
+}
+
+.badge-status-progress {
+
+    background-color: #0d6efd;
+
+    color: white;
+
+    padding: 7px 12px;
+
+    border-radius: 20px;
+}
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.action-btn {
+
+    width: 38px;
+
+    height: 38px;
+
+    border-radius: 10px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-right: 5px;
+
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+
+    transform: scale(1.1);
+}
+
+/* =========================================
+   CHART CARD
+========================================= */
+
+.chart-card {
+
+    border: none;
+
+    border-radius: 18px;
+}
+
+.chart-card .card-header {
+
+    background-color: white;
+
+    border-bottom: 1px solid #eee;
+
+    padding: 18px 25px;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .dashboard-header h2 {
+
+        font-size: 24px;
+    }
+
+    .stat-card h3 {
+
+        font-size: 24px;
+    }
+
+    .table-responsive {
+
+        overflow-x: auto;
+    }
+}
