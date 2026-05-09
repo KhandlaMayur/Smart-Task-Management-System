@@ -1,42 +1,27 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<footer class="bg-dark text-white mt-5 py-3 shadow-sm">
+<footer class="app-footer shadow-sm">
 
-    <div class="container-fluid">
+    <div class="app-footer__inner">
 
-        <div class="row align-items-center">
+        <div class="app-footer__brand">
 
-            <!-- Left Section -->
+            <i class="fa-solid fa-list-check text-info"></i>
 
-            <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+            <span>Smart Task Management System</span>
 
-                <h6 class="mb-0">
+        </div>
 
-                    <i class="fa-solid fa-list-check text-info"></i>
+        <div class="app-footer__meta">
 
-                    Smart Task Management System
+            <span>&copy; 2026 All Rights Reserved</span>
 
-                </h6>
+            <span class="app-footer__divider">|</span>
 
-            </div>
-
-            <!-- Right Section -->
-
-            <div class="col-md-6 text-center text-md-end">
-
-                <small>
-
-                    © 2026 All Rights Reserved |
-
-                    Developed By
-
-                    <span class="fw-bold text-info">
-                        Mayur
-                    </span>
-
-                </small>
-
-            </div>
+            <span>
+                Developed By
+                <span class="fw-bold text-info">Mayur</span>
+            </span>
 
         </div>
 

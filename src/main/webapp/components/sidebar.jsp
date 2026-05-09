@@ -5,7 +5,7 @@
             request.getContextPath();
 %>
 
-<div class="bg-dark text-white vh-100 shadow-sm sidebar-wrapper">
+<div class="bg-dark text-white shadow-sm sidebar-wrapper">
 
     <!-- Sidebar Header -->
 
@@ -23,7 +23,7 @@
 
     <!-- Sidebar Menu -->
 
-    <ul class="nav flex-column p-3">
+    <ul class="nav flex-column p-3 sidebar-menu">
 
         <!-- Dashboard -->
 
@@ -175,50 +175,19 @@
 
         </li>
 
-        <!-- Logout -->
-
-        <li class="nav-item mt-4">
-
-            <a href="<%= contextPath %>/logout"
-               class="nav-link text-danger sidebar-link">
-
-                <i class="fa-solid fa-right-from-bracket me-2"></i>
-
-                Logout
-
-            </a>
-
-        </li>
-
     </ul>
 
+    <div class="sidebar-footer p-3 pt-0">
+
+        <a href="<%= contextPath %>/logout"
+           class="nav-link sidebar-link sidebar-link-logout">
+
+            <i class="fa-solid fa-right-from-bracket me-2"></i>
+
+            Logout
+
+        </a>
+
+    </div>
+
 </div>
-
-<!-- Sidebar Style -->
-
-<style>
-
-    .sidebar-wrapper {
-
-        min-height: 100vh;
-    }
-
-    .sidebar-link {
-
-        border-radius: 10px;
-
-        padding: 12px 15px;
-
-        transition: all 0.3s ease;
-    }
-
-    .sidebar-link:hover {
-
-        background-color: #0d6efd;
-
-        color: white !important;
-
-        transform: translateX(5px);
-    }
-
-</style>
