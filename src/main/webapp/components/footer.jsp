@@ -2,7 +2,7 @@
 
 <footer class="app-footer shadow-sm">
 
-    <div class="app-footer__inner">
+    <div class="app-footer__line">
 
         <div class="app-footer__brand">
 

@@ -20,6 +20,8 @@ body {
     color: #212529;
 
     min-height: 100vh;
+
+    padding-bottom: 64px;
 }
 
 /* =========================================
@@ -313,12 +315,22 @@ a {
 
     color: #ffffff;
 
-    margin-top: 32px;
+    position: fixed;
 
-    border-radius: 8px;
+    left: 0;
+
+    right: 0;
+
+    bottom: 0;
+
+    z-index: 1030;
+
+    margin-top: 0;
+
+    border-radius: 0;
 }
 
-.app-footer__inner {
+.app-footer__line {
 
     display: flex;
 
@@ -326,9 +338,24 @@ a {
 
     justify-content: space-between;
 
-    gap: 16px;
+    gap: 10px;
 
-    padding: 18px 20px;
+    padding: 14px 18px;
+
+    white-space: nowrap;
+
+    overflow-x: auto;
+
+    overflow-y: hidden;
+
+    font-size: 15px;
+
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.app-footer__line::-webkit-scrollbar {
+
+    height: 4px;
 }
 
 .app-footer__brand {
@@ -339,14 +366,7 @@ a {
 
     gap: 10px;
 
-    font-weight: 700;
-
-    min-width: 0;
-}
-
-.app-footer__brand span {
-
-    line-height: 1.4;
+    flex: 0 0 auto;
 }
 
 .app-footer__meta {
@@ -359,16 +379,14 @@ a {
 
     gap: 10px;
 
-    flex-wrap: wrap;
-
-    text-align: right;
-
-    color: rgba(255, 255, 255, 0.88);
+    flex: 0 0 auto;
 }
 
 .app-footer__divider {
 
     color: rgba(255, 255, 255, 0.45);
+
+    flex: 0 0 auto;
 }
 
 /* =========================================
@@ -542,20 +560,11 @@ a {
         padding-top: 8px !important;
     }
 
-    .app-footer__inner {
+    .app-footer__line {
 
-        flex-direction: column;
+        justify-content: space-between;
 
-        align-items: flex-start;
-
-        padding: 16px;
-    }
-
-    .app-footer__meta {
-
-        justify-content: flex-start;
-
-        text-align: left;
+        font-size: 14px;
     }
 }
 
@@ -578,14 +587,10 @@ a {
         font-size: 14px;
     }
 
-    .app-footer__brand,
-    .app-footer__meta {
+    .app-footer__line {
 
-        font-size: 14px;
-    }
+        padding: 12px 14px;
 
-    .app-footer__divider {
-
-        display: none;
+        font-size: 13px;
     }
 }

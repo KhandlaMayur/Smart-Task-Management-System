@@ -239,6 +239,20 @@
   </servlet-mapping>
 
   <!-- ========================================= -->
+  <!-- DOWNLOAD TASK REPORT SERVLET -->
+  <!-- ========================================= -->
+
+  <servlet>
+    <servlet-name>DownloadTaskReportServlet</servlet-name>
+    <servlet-class>controller.DownloadTaskReportServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>DownloadTaskReportServlet</servlet-name>
+    <url-pattern>/downloadTaskReport</url-pattern>
+  </servlet-mapping>
+
+  <!-- ========================================= -->
   <!-- AUTH FILTER -->
   <!-- ========================================= -->
 

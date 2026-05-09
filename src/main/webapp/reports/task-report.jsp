@@ -12,6 +12,9 @@
     int userId = Integer.parseInt(userSession.getAttribute("userId").toString());
     TaskDAO taskDAO = new TaskDAO();
     List<Task> taskList = taskDAO.getAllTasks(userId);
+    int completedTaskCount = taskDAO.getCompletedTasks(userId);
+    int pendingTaskCount = taskDAO.getPendingTasks(userId);
+    int inProgressTaskCount = taskDAO.getInProgressTasks(userId);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +32,51 @@
     <div class="row">
         <div class="col-md-2 p-0"><jsp:include page="/components/sidebar.jsp"/></div>
         <div class="col-md-10 p-4">
-            <h2 class="fw-bold mb-4">Task Report</h2>
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+                <div>
+                    <h2 class="fw-bold mb-1">Task Report</h2>
+                    <p class="text-muted mb-0">View and download your task report receipt.</p>
+                </div>
+                <a href="<%= contextPath %>/downloadTaskReport"
+                   class="btn btn-primary">
+                    <i class="fa-solid fa-download"></i>
+                    Download Report
+                </a>
+            </div>
+            <div class="row g-3 mb-4">
+                <div class="col-md-3 col-sm-6">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <div class="text-muted small mb-1">Total Tasks</div>
+                            <div class="fs-3 fw-bold"><%= taskList.size() %></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <div class="text-muted small mb-1">Completed</div>
+                            <div class="fs-3 fw-bold text-success"><%= completedTaskCount %></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <div class="text-muted small mb-1">Pending</div>
+                            <div class="fs-3 fw-bold text-warning"><%= pendingTaskCount %></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <div class="text-muted small mb-1">In Progress</div>
+                            <div class="fs-3 fw-bold text-primary"><%= inProgressTaskCount %></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="card shadow border-0 rounded-4">
                 <div class="card-body">
                     <div class="table-responsive">
