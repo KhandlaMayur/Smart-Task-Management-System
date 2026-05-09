@@ -21,6 +21,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DownloadTaskReportServlet extends HttpServlet {
@@ -31,6 +32,8 @@ public class DownloadTaskReportServlet extends HttpServlet {
 
     private static final float[] TABLE_WIDTHS =
             {190f, 95f, 110f, 128f};
+
+    private static final float TABLE_ROW_PADDING = 10f;
 
     private TaskDAO taskDAO;
 
@@ -130,7 +133,7 @@ public class DownloadTaskReportServlet extends HttpServlet {
 
             for (Task task : taskList) {
 
-                if (yPosition - 34f <= PAGE_BOTTOM_LIMIT) {
+                if (yPosition - calculateRowHeight(task) <= PAGE_BOTTOM_LIMIT) {
 
                     contentStream.close();
 
@@ -238,9 +241,9 @@ public class DownloadTaskReportServlet extends HttpServlet {
         );
 
         float userBoxWidth = 175f;
-        float userBoxHeight = 42f;
+        float userBoxHeight = 50f;
         float userBoxX = pageWidth - PAGE_MARGIN - userBoxWidth;
-        float userBoxY = y - 8f;
+        float userBoxY = y - 14f;
 
         contentStream.setNonStrokingColor(new Color(232, 240, 255));
         contentStream.addRect(userBoxX, userBoxY, userBoxWidth, userBoxHeight);
@@ -250,19 +253,33 @@ public class DownloadTaskReportServlet extends HttpServlet {
                 contentStream,
                 "User Name",
                 userBoxX + 12f,
-                userBoxY + 26f,
+                userBoxY + 33f,
                 PDType1Font.HELVETICA_BOLD,
                 10,
                 new Color(13, 110, 253)
         );
 
+        float userNameFontSize =
+                findBestFitFontSize(
+                        safeValue(userName),
+                        PDType1Font.HELVETICA_BOLD,
+                        14f,
+                        10f,
+                        userBoxWidth - 24f
+                );
+
         drawText(
                 contentStream,
-                safeValue(userName),
+                fitText(
+                        safeValue(userName),
+                        PDType1Font.HELVETICA_BOLD,
+                        userNameFontSize,
+                        userBoxWidth - 24f
+                ),
                 userBoxX + 12f,
-                userBoxY + 11f,
+                userBoxY + 14f,
                 PDType1Font.HELVETICA_BOLD,
-                12,
+                userNameFontSize,
                 new Color(33, 37, 41)
         );
 
@@ -270,13 +287,13 @@ public class DownloadTaskReportServlet extends HttpServlet {
                 contentStream,
                 "Generated: " + generatedAt,
                 PAGE_MARGIN,
-                y - 54f,
+                y - 60f,
                 PDType1Font.HELVETICA,
                 10,
                 new Color(130, 138, 145)
         );
 
-        float cardsY = y - 118f;
+        float cardsY = y - 176f;
         float cardGap = 12f;
         float cardWidth = (pageWidth - (PAGE_MARGIN * 2) - (cardGap * 3)) / 4f;
         float cardHeight = 66f;
@@ -310,7 +327,7 @@ public class DownloadTaskReportServlet extends HttpServlet {
         drawText(
                 contentStream,
                 "User: " + safeValue(userName),
-                page.getMediaBox().getWidth() - PAGE_MARGIN - 140f,
+                page.getMediaBox().getWidth() - PAGE_MARGIN - 190f,
                 y,
                 PDType1Font.HELVETICA_BOLD,
                 11,
@@ -406,7 +423,13 @@ public class DownloadTaskReportServlet extends HttpServlet {
                               boolean alternateRow)
             throws IOException {
 
-        float rowHeight = 32f;
+        List<String> titleLines =
+                getWrappedTitleLines(task);
+
+        float lineHeight = 14f;
+        float rowHeight =
+                calculateRowHeight(titleLines);
+
         float tableWidth =
                 page.getMediaBox().getWidth() - (PAGE_MARGIN * 2);
 
@@ -423,32 +446,92 @@ public class DownloadTaskReportServlet extends HttpServlet {
         contentStream.lineTo(PAGE_MARGIN + tableWidth, y - rowHeight);
         contentStream.stroke();
 
-        String[] values =
-                {
-                        fitText(task.getTitle(), PDType1Font.HELVETICA, 11, TABLE_WIDTHS[0] - 12f),
-                        fitText(task.getPriority(), PDType1Font.HELVETICA, 11, TABLE_WIDTHS[1] - 12f),
-                        fitText(task.getStatus(), PDType1Font.HELVETICA, 11, TABLE_WIDTHS[2] - 12f),
-                        fitText(String.valueOf(task.getDueDate()), PDType1Font.HELVETICA, 11, TABLE_WIDTHS[3] - 12f)
-                };
+        float currentX = PAGE_MARGIN + TABLE_ROW_PADDING;
+        float titleBlockHeight = titleLines.size() * lineHeight;
+        float titleTextStartY =
+                y - ((rowHeight - titleBlockHeight) / 2f) - 7f;
+        float singleLineTextY =
+                y - (rowHeight / 2f) - 3f;
 
-        float currentX = PAGE_MARGIN + 10f;
-
-        for (int i = 0; i < values.length; i++) {
+        for (int i = 0; i < titleLines.size(); i++) {
 
             drawText(
                     contentStream,
-                    values[i],
+                    titleLines.get(i),
                     currentX,
-                    y - 21f,
+                    titleTextStartY - (i * lineHeight),
                     PDType1Font.HELVETICA,
                     11,
                     new Color(33, 37, 41)
             );
-
-            currentX += TABLE_WIDTHS[i];
         }
 
+        currentX += TABLE_WIDTHS[0];
+
+        drawText(
+                contentStream,
+                fitText(task.getPriority(), PDType1Font.HELVETICA, 11, TABLE_WIDTHS[1] - (TABLE_ROW_PADDING * 2)),
+                currentX,
+                singleLineTextY,
+                PDType1Font.HELVETICA,
+                11,
+                new Color(33, 37, 41)
+        );
+
+        currentX += TABLE_WIDTHS[1];
+
+        drawText(
+                contentStream,
+                fitText(task.getStatus(), PDType1Font.HELVETICA, 11, TABLE_WIDTHS[2] - (TABLE_ROW_PADDING * 2)),
+                currentX,
+                singleLineTextY,
+                PDType1Font.HELVETICA,
+                11,
+                new Color(33, 37, 41)
+        );
+
+        currentX += TABLE_WIDTHS[2];
+
+        drawText(
+                contentStream,
+                fitText(String.valueOf(task.getDueDate()), PDType1Font.HELVETICA, 11, TABLE_WIDTHS[3] - (TABLE_ROW_PADDING * 2)),
+                currentX,
+                singleLineTextY,
+                PDType1Font.HELVETICA,
+                11,
+                new Color(33, 37, 41)
+        );
+
         return y - rowHeight;
+    }
+
+    private float calculateRowHeight(Task task)
+            throws IOException {
+
+        return calculateRowHeight(
+                getWrappedTitleLines(task)
+        );
+    }
+
+    private float calculateRowHeight(List<String> titleLines) {
+
+        float lineHeight = 14f;
+
+        return Math.max(
+                32f,
+                (titleLines.size() * lineHeight) + (TABLE_ROW_PADDING * 2)
+        );
+    }
+
+    private List<String> getWrappedTitleLines(Task task)
+            throws IOException {
+
+        return wrapText(
+                task.getTitle(),
+                PDType1Font.HELVETICA,
+                11,
+                TABLE_WIDTHS[0] - (TABLE_ROW_PADDING * 2)
+        );
     }
 
     private void drawMotivationMessage(PDPageContentStream contentStream,
@@ -541,6 +624,95 @@ public class DownloadTaskReportServlet extends HttpServlet {
         }
 
         return builder + ellipsis;
+    }
+
+    private float findBestFitFontSize(String value,
+                                      PDType1Font font,
+                                      float preferredFontSize,
+                                      float minimumFontSize,
+                                      float maxWidth)
+            throws IOException {
+
+        float fontSize = preferredFontSize;
+
+        while (fontSize > minimumFontSize
+                && getTextWidth(value, font, fontSize) > maxWidth) {
+
+            fontSize -= 0.5f;
+        }
+
+        return fontSize;
+    }
+
+    private List<String> wrapText(String value,
+                                  PDType1Font font,
+                                  float fontSize,
+                                  float maxWidth)
+            throws IOException {
+
+        List<String> lines =
+                new ArrayList<>();
+
+        String safeText =
+                safeValue(value).trim();
+
+        if (safeText.isEmpty()) {
+
+            lines.add("");
+
+            return lines;
+        }
+
+        String[] words =
+                safeText.split("\\s+");
+
+        StringBuilder currentLine =
+                new StringBuilder();
+
+        for (String word : words) {
+
+            String candidate =
+                    currentLine.length() == 0
+                            ? word
+                            : currentLine + " " + word;
+
+            if (getTextWidth(candidate, font, fontSize) <= maxWidth) {
+
+                currentLine.setLength(0);
+                currentLine.append(candidate);
+
+                continue;
+            }
+
+            if (currentLine.length() > 0) {
+
+                lines.add(currentLine.toString());
+                currentLine.setLength(0);
+            }
+
+            if (getTextWidth(word, font, fontSize) <= maxWidth) {
+
+                currentLine.append(word);
+
+            } else {
+
+                lines.add(
+                        fitText(
+                                word,
+                                font,
+                                fontSize,
+                                maxWidth
+                        )
+                );
+            }
+        }
+
+        if (currentLine.length() > 0) {
+
+            lines.add(currentLine.toString());
+        }
+
+        return lines;
     }
 
     private float getTextWidth(String text,
