@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.sql.Date;
-import java.time.LocalDate;
 
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 2,
@@ -90,6 +89,8 @@ public class UpdateTaskServlet extends HttpServlet {
         if (idStr == null || idStr.trim().isEmpty()
                 || title == null || title.trim().isEmpty()
                 || description == null || description.trim().isEmpty()
+                || priority == null || priority.trim().isEmpty()
+                || status == null || status.trim().isEmpty()
                 || dueDateStr == null || dueDateStr.trim().isEmpty()
                 || categoryIdStr == null || categoryIdStr.trim().isEmpty()) {
 
@@ -135,24 +136,6 @@ public class UpdateTaskServlet extends HttpServlet {
             );
 
             return;
-        }
-
-        // =========================================
-        // AUTO PRIORITY LOGIC
-        // =========================================
-
-        LocalDate today = LocalDate.now();
-
-        LocalDate dueLocalDate =
-                dueDate.toLocalDate();
-
-        long daysBetween =
-                java.time.temporal.ChronoUnit.DAYS
-                        .between(today, dueLocalDate);
-
-        if (daysBetween <= 2) {
-
-            priority = "High";
         }
 
         // =========================================

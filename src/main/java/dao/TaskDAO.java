@@ -282,6 +282,11 @@ public class TaskDAO {
         return getTasksByStatus(userId, "Completed");
     }
 
+    public List<Task> getInProgressTaskList(int userId) {
+
+        return getTasksByStatus(userId, "In Progress");
+    }
+
     // =========================================
     // SEARCH TASKS
     // =========================================

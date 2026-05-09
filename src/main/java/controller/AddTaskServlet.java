@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @MultipartConfig(
@@ -61,6 +60,8 @@ public class AddTaskServlet extends HttpServlet {
         // =========================
         if (title == null || title.trim().isEmpty()
                 || description == null || description.trim().isEmpty()
+                || priority == null || priority.trim().isEmpty()
+                || status == null || status.trim().isEmpty()
                 || dueDateStr == null || dueDateStr.trim().isEmpty()
                 || categoryIdStr == null || categoryIdStr.trim().isEmpty()) {
 
@@ -102,18 +103,6 @@ public class AddTaskServlet extends HttpServlet {
 
             // Save File
             filePart.write(uploadPath + File.separator + fileName);
-        }
-
-        // =========================
-        // AUTO PRIORITY LOGIC
-        // =========================
-        LocalDate today = LocalDate.now();
-        LocalDate dueLocalDate = dueDate.toLocalDate();
-
-        long daysBetween = java.time.temporal.ChronoUnit.DAYS.between(today, dueLocalDate);
-
-        if (daysBetween <= 2) {
-            priority = "High";
         }
 
         // =========================

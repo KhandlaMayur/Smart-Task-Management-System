@@ -71,13 +71,7 @@ public class TaskServlet extends HttpServlet {
 
             case "list":
 
-                List<Task> taskList =
-                        taskDAO.getAllTasks(userId);
-
-                request.setAttribute(
-                        "taskList",
-                        taskList
-                );
+                showTaskList(request, userId);
 
                 request.getRequestDispatcher(
                         "/task/task-list.jsp"
@@ -130,6 +124,100 @@ public class TaskServlet extends HttpServlet {
             throws ServletException, IOException {
 
         doGet(request, response);
+    }
+
+    private void showTaskList(HttpServletRequest request,
+                              int userId) {
+
+        String statusFilter =
+                request.getParameter("status");
+
+        List<Task> taskList;
+
+        String pageTitle =
+                "Task List";
+
+        String pageDescription =
+                "Manage And Track Your Tasks";
+
+        String normalizedStatusFilter =
+                "";
+
+        if (statusFilter == null
+                || statusFilter.trim().isEmpty()
+                || "All".equalsIgnoreCase(statusFilter)) {
+
+            taskList =
+                    taskDAO.getAllTasks(userId);
+
+        } else if ("Completed".equalsIgnoreCase(statusFilter)) {
+
+            taskList =
+                    taskDAO.getCompletedTaskList(userId);
+
+            normalizedStatusFilter =
+                    "Completed";
+
+            pageTitle =
+                    "Completed Tasks";
+
+            pageDescription =
+                    "Showing Only Completed Tasks";
+
+        } else if ("Pending".equalsIgnoreCase(statusFilter)) {
+
+            taskList =
+                    taskDAO.getPendingTaskList(userId);
+
+            normalizedStatusFilter =
+                    "Pending";
+
+            pageTitle =
+                    "Pending Tasks";
+
+            pageDescription =
+                    "Showing Only Pending Tasks";
+
+        } else if ("In Progress".equalsIgnoreCase(statusFilter)
+                || "In Process".equalsIgnoreCase(statusFilter)) {
+
+            taskList =
+                    taskDAO.getInProgressTaskList(userId);
+
+            normalizedStatusFilter =
+                    "In Progress";
+
+            pageTitle =
+                    "In Progress Tasks";
+
+            pageDescription =
+                    "Showing Only In Progress Tasks";
+
+        } else {
+
+            taskList =
+                    taskDAO.getAllTasks(userId);
+        }
+
+        request.setAttribute(
+                "taskList",
+                taskList
+        );
+
+        request.setAttribute(
+                "currentStatusFilter",
+                normalizedStatusFilter
+        );
+
+        request.setAttribute(
+                "pageTitle",
+                pageTitle
+        );
+
+        request.setAttribute(
+                "pageDescription",
+                pageDescription
+        );
     }
 
     // =========================================

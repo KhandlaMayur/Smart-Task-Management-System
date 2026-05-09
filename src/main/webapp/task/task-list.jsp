@@ -1,7 +1,5 @@
 <%@ page import="java.util.List" %>
 <%@ page import="model.Task" %>
-<%@ page import="dao.TaskDAO" %>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
@@ -19,17 +17,34 @@
         return;
     }
 
-    int userId =
-            Integer.parseInt(
-                    userSession.getAttribute("userId")
-                            .toString()
-            );
-
-    TaskDAO taskDAO =
-            new TaskDAO();
-
     List<Task> taskList =
-            taskDAO.getAllTasks(userId);
+            (List<Task>) request.getAttribute("taskList");
+
+    if (taskList == null) {
+
+        response.sendRedirect(contextPath + "/task?action=list");
+
+        return;
+    }
+
+    String pageTitle =
+            (String) request.getAttribute("pageTitle");
+
+    if (pageTitle == null || pageTitle.trim().isEmpty()) {
+
+        pageTitle = "Task List";
+    }
+
+    String pageDescription =
+            (String) request.getAttribute("pageDescription");
+
+    if (pageDescription == null || pageDescription.trim().isEmpty()) {
+
+        pageDescription = "Manage And Track Your Tasks";
+    }
+
+    String currentStatusFilter =
+            (String) request.getAttribute("currentStatusFilter");
 %>
 
 <!DOCTYPE html>
@@ -96,13 +111,13 @@
 
                         <i class="fa-solid fa-list-check text-primary"></i>
 
-                        Task List
+                        <%= pageTitle %>
 
                     </h2>
 
                     <p class="text-muted">
 
-                        Manage And Track Your Tasks
+                        <%= pageDescription %>
 
                     </p>
 
@@ -110,7 +125,7 @@
 
                 <div>
 
-                    <a href="<%= contextPath %>/task/completed-task.jsp"
+                    <a href="<%= contextPath %>/task?action=list&status=Completed"
                        class="btn btn-success me-2">
 
                         <i class="fa-solid fa-circle-check"></i>
@@ -162,6 +177,32 @@
                                        placeholder="Search Tasks...">
 
                             </div>
+
+                        </div>
+
+                        <div class="col-md-6 text-md-end mt-3 mt-md-0">
+
+                            <%
+                                if (currentStatusFilter != null
+                                        && !currentStatusFilter.trim().isEmpty()) {
+                            %>
+
+                            <span class="badge bg-primary fs-6 me-2">
+
+                                Filter: <%= currentStatusFilter %>
+
+                            </span>
+
+                            <a href="<%= contextPath %>/task?action=list"
+                               class="btn btn-outline-secondary">
+
+                                View All Tasks
+
+                            </a>
+
+                            <%
+                                }
+                            %>
 
                         </div>
 

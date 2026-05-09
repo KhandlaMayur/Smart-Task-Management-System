@@ -33,9 +33,6 @@
     Integer inProgressTasks =
             (Integer) request.getAttribute("inProgressTasks");
 
-    Integer overdueTasks =
-            (Integer) request.getAttribute("overdueTasks");
-
     List<Task> recentTasks =
             (List<Task>) request.getAttribute("recentTasks");
 %>
@@ -142,6 +139,9 @@
 
                 <div class="col-md-3">
 
+                    <a href="<%= contextPath %>/task?action=list"
+                       class="stat-card-link">
+
                     <div class="card stat-card total-task shadow-sm">
 
                         <div class="card-body">
@@ -164,11 +164,16 @@
 
                     </div>
 
+                    </a>
+
                 </div>
 
                 <!-- Completed -->
 
                 <div class="col-md-3">
+
+                    <a href="<%= contextPath %>/task?action=list&status=Completed"
+                       class="stat-card-link">
 
                     <div class="card stat-card completed-task shadow-sm">
 
@@ -192,11 +197,16 @@
 
                     </div>
 
+                    </a>
+
                 </div>
 
                 <!-- Pending -->
 
                 <div class="col-md-3">
+
+                    <a href="<%= contextPath %>/task?action=list&status=Pending"
+                       class="stat-card-link">
 
                     <div class="card stat-card pending-task shadow-sm">
 
@@ -220,11 +230,16 @@
 
                     </div>
 
+                    </a>
+
                 </div>
 
-                <!-- Overdue -->
+                <!-- In Progress -->
 
                 <div class="col-md-3">
+
+                    <a href="<%= contextPath %>/task?action=list&status=In%20Progress"
+                       class="stat-card-link">
 
                     <div class="card stat-card overdue-task shadow-sm">
 
@@ -237,16 +252,18 @@
                             </div>
 
                             <h3>
-                                <%= overdueTasks %>
+                                <%= inProgressTasks %>
                             </h3>
 
                             <p>
-                                Overdue Tasks
+                                In Progress Tasks
                             </p>
 
                         </div>
 
                     </div>
+
+                    </a>
 
                 </div>
 
