@@ -364,6 +364,18 @@ public class ReminderServlet extends HttpServlet {
         boolean isUpdated =
                 reminderDAO.updateReminder(reminder);
 
+        if (isUpdated
+                && "Completed".equalsIgnoreCase(status)) {
+
+            taskDAO.markTaskCompleted(
+                    existingReminder.getTaskId()
+            );
+
+            reminderDAO.markRemindersCompletedByTask(
+                    existingReminder.getTaskId()
+            );
+        }
+
         if (isUpdated) {
 
             response.sendRedirect(

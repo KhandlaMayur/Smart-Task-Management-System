@@ -504,6 +504,35 @@ public class ReminderDAO {
         return status;
     }
 
+    public boolean markRemindersCompletedByTask(int taskId) {
+
+        boolean status = false;
+
+        try {
+
+            Connection conn =
+                    DBConnection.getConnection();
+
+            String sql =
+                    "UPDATE reminders SET status = 'Completed' WHERE task_id = ? AND status <> 'Completed'";
+
+            PreparedStatement ps =
+                    conn.prepareStatement(sql);
+
+            ps.setInt(1, taskId);
+
+            ps.executeUpdate();
+
+            status = true;
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return status;
+    }
+
     // =========================================
     // GET TOTAL REMINDERS
     // =========================================

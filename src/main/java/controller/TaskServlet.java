@@ -1,6 +1,7 @@
 package controller;
 
 import dao.TaskDAO;
+import dao.ReminderDAO;
 import model.Task;
 
 import jakarta.servlet.ServletException;
@@ -16,10 +17,13 @@ public class TaskServlet extends HttpServlet {
 
     private TaskDAO taskDAO;
 
+    private ReminderDAO reminderDAO;
+
     @Override
     public void init() throws ServletException {
 
         taskDAO = new TaskDAO();
+        reminderDAO = new ReminderDAO();
     }
 
     @Override
@@ -332,6 +336,8 @@ public class TaskServlet extends HttpServlet {
                 taskDAO.markTaskCompleted(taskId);
 
         if (isCompleted) {
+
+            reminderDAO.markRemindersCompletedByTask(taskId);
 
             response.sendRedirect(
                     request.getContextPath()
