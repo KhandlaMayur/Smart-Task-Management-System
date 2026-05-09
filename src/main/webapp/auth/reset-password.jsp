@@ -1,6 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
+    String contextPath =
+            request.getContextPath();
+
     String token =
             (String) request.getAttribute("token");
 
@@ -29,7 +32,7 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <link rel="stylesheet"
-          href="../css/style.css">
+          href="<%= contextPath %>/css/style.css">
 
 </head>
 
@@ -61,7 +64,7 @@
 
                     <jsp:include page="../components/message.jsp"/>
 
-                    <form action="../resetPassword"
+                    <form action="<%= contextPath %>/resetPassword"
                           method="post">
 
                         <input type="hidden"
@@ -133,7 +136,7 @@
 
                     <div class="text-center mt-4">
 
-                        <a href="login.jsp"
+                        <a href="<%= contextPath %>/auth/login.jsp"
                            class="text-decoration-none">
 
                             <i class="fa-solid fa-arrow-left"></i>

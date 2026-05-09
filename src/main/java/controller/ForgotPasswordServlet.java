@@ -29,7 +29,10 @@ public class ForgotPasswordServlet extends HttpServlet {
                          HttpServletResponse response)
             throws ServletException, IOException {
 
-        response.sendRedirect("auth/forgot-password.jsp");
+        response.sendRedirect(
+                request.getContextPath()
+                        + "/auth/forgot-password.jsp"
+        );
     }
 
     @Override
@@ -47,7 +50,8 @@ public class ForgotPasswordServlet extends HttpServlet {
         if (!ValidationUtil.isValidEmail(email)) {
 
             response.sendRedirect(
-                    "auth/forgot-password.jsp?error=Enter A Valid Registered Email Address"
+                    request.getContextPath()
+                            + "/auth/forgot-password.jsp?error=Enter A Valid Registered Email Address"
             );
 
             return;
@@ -59,7 +63,8 @@ public class ForgotPasswordServlet extends HttpServlet {
         if (user == null) {
 
             response.sendRedirect(
-                    "auth/forgot-password.jsp?error=Email Not Registered"
+                    request.getContextPath()
+                            + "/auth/forgot-password.jsp?error=Email Not Registered"
             );
 
             return;
@@ -86,7 +91,8 @@ public class ForgotPasswordServlet extends HttpServlet {
         if (emailSent) {
 
             response.sendRedirect(
-                    "auth/forgot-password.jsp?success=Reset Link Sent To Your Email"
+                    request.getContextPath()
+                            + "/auth/forgot-password.jsp?success=Reset Link Sent To Your Email"
             );
 
             return;
@@ -98,7 +104,8 @@ public class ForgotPasswordServlet extends HttpServlet {
         );
 
         response.sendRedirect(
-                "auth/forgot-password.jsp?warning=Email Service Not Configured. Use The Reset Link Below"
+                request.getContextPath()
+                        + "/auth/forgot-password.jsp?warning=Email Service Not Configured. Use The Reset Link Below"
         );
     }
 

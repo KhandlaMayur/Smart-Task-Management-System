@@ -26,6 +26,9 @@ public class ResetPasswordServlet extends HttpServlet {
                          HttpServletResponse response)
             throws ServletException, IOException {
 
+        String contextPath =
+                request.getContextPath();
+
         String token =
                 request.getParameter("token");
 
@@ -34,7 +37,8 @@ public class ResetPasswordServlet extends HttpServlet {
                 || !PasswordResetTokenStore.isValid(token)) {
 
             response.sendRedirect(
-                    "auth/forgot-password.jsp?error=Reset Link Is Invalid Or Expired"
+                    contextPath
+                            + "/auth/forgot-password.jsp?error=Reset Link Is Invalid Or Expired"
             );
 
             return;
@@ -52,6 +56,9 @@ public class ResetPasswordServlet extends HttpServlet {
                           HttpServletResponse response)
             throws ServletException, IOException {
 
+        String contextPath =
+                request.getContextPath();
+
         String token =
                 request.getParameter("token");
 
@@ -66,7 +73,8 @@ public class ResetPasswordServlet extends HttpServlet {
                 || !PasswordResetTokenStore.isValid(token)) {
 
             response.sendRedirect(
-                    "auth/forgot-password.jsp?error=Reset Link Is Invalid Or Expired"
+                    contextPath
+                            + "/auth/forgot-password.jsp?error=Reset Link Is Invalid Or Expired"
             );
 
             return;
@@ -78,7 +86,8 @@ public class ResetPasswordServlet extends HttpServlet {
                 || confirmPassword.trim().isEmpty()) {
 
             response.sendRedirect(
-                    "resetPassword?token=" + token + "&error=All Fields Are Required"
+                    contextPath
+                            + "/resetPassword?token=" + token + "&error=All Fields Are Required"
             );
 
             return;
@@ -87,7 +96,8 @@ public class ResetPasswordServlet extends HttpServlet {
         if (!newPassword.equals(confirmPassword)) {
 
             response.sendRedirect(
-                    "resetPassword?token=" + token + "&error=Passwords Do Not Match"
+                    contextPath
+                            + "/resetPassword?token=" + token + "&error=Passwords Do Not Match"
             );
 
             return;
@@ -96,7 +106,8 @@ public class ResetPasswordServlet extends HttpServlet {
         if (!PasswordUtil.isStrongPassword(newPassword)) {
 
             response.sendRedirect(
-                    "resetPassword?token=" + token + "&error=Password Must Contain Uppercase Lowercase Number And Special Character"
+                    contextPath
+                            + "/resetPassword?token=" + token + "&error=Password Must Contain Uppercase Lowercase Number And Special Character"
             );
 
             return;
@@ -108,7 +119,8 @@ public class ResetPasswordServlet extends HttpServlet {
         if (userId == null) {
 
             response.sendRedirect(
-                    "auth/forgot-password.jsp?error=Reset Link Is Invalid Or Expired"
+                    contextPath
+                            + "/auth/forgot-password.jsp?error=Reset Link Is Invalid Or Expired"
             );
 
             return;
@@ -125,13 +137,15 @@ public class ResetPasswordServlet extends HttpServlet {
             PasswordResetTokenStore.consumeToken(token);
 
             response.sendRedirect(
-                    "auth/login.jsp?success=Password Reset Successfully. Please Login"
+                    contextPath
+                            + "/auth/login.jsp?success=Password Reset Successfully. Please Login"
             );
 
         } else {
 
             response.sendRedirect(
-                    "resetPassword?token=" + token + "&error=Failed To Reset Password"
+                    contextPath
+                            + "/resetPassword?token=" + token + "&error=Failed To Reset Password"
             );
         }
     }
